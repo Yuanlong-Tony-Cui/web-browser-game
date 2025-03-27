@@ -1,4 +1,4 @@
-import "./App.css";
+import "./Chessboard.css";
 import { useEffect, useState } from "react";
 
 export default function App() {
