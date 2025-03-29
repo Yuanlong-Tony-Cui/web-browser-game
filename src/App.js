@@ -17,7 +17,10 @@ export default function Game() {
         setRobot((prev) => {
             const newX = Math.max(0, Math.min(GRID_SIZE - 1, prev.x + dx));
             const newY = Math.max(0, Math.min(GRID_SIZE - 1, prev.y + dy));
-            return { x: newX, y: newY };
+            return {
+                x: newX,
+                y: newY
+            };
         });
     };
 
@@ -29,41 +32,46 @@ export default function Game() {
 
     useEffect(() => {
         const handleKeyDown = (e) => {
-            if (e.key === "ArrowUp") moveRobot(0, -1);
-            if (e.key === "ArrowDown") moveRobot(0, 1);
-            if (e.key === "ArrowLeft") moveRobot(-1, 0);
-            if (e.key === "ArrowRight") moveRobot(1, 0);
+            if (e.key === "ArrowUp") moveRobot(-1, 0);
+            if (e.key === "ArrowDown") moveRobot(1, 0);
+            if (e.key === "ArrowLeft") moveRobot(0, -1);
+            if (e.key === "ArrowRight") moveRobot(0, 1);
         };
         window.addEventListener("keydown", handleKeyDown);
-        return () => window.removeEventListener("keydown", handleKeyDown);
-    }, []);
+        return () => window.removeEventListener("keydown", handleKeyDown); // cleanup
+    }, []); // runs only once after the initial render
 
     useEffect(() => {
         if (robot.x === candy.x && robot.y === candy.y) {
             setCandiesEaten((count) => count + 1);
             setCandy(getRandomPosition());
         }
-    }, [robot, candy]);
+    }, [robot, candy]); // runs every time robot or candy changes
 
     return (
         <div className="container">
+
+            {/* Game Status */}
             <div className="controls">
-                <button onClick={resetGame} className="reset-button">
+                <button className="reset-button"
+                    onClick={resetGame}
+                >
                     Reset Game
                 </button>
                 <div className="counter">
                     Candies Eaten: {candiesEaten}
                 </div>
             </div>
+
+            {/* Game Board */}
             <div className="grid">
                 {[...Array(GRID_SIZE * GRID_SIZE)].map((_, idx) => {
-                    const x = idx % GRID_SIZE;
-                    const y = Math.floor(idx / GRID_SIZE);
-                    const isRobot = robot.x === x && robot.y === y;
-                    const isCandy = candy.x === x && candy.y === y;
+                    const x = Math.floor(idx / GRID_SIZE);
+                    const y = idx % GRID_SIZE;
+                    const isRobot = (x === robot.x && y === robot.y);
+                    const isCandy = (x === candy.x && y === candy.y);
                     return (
-                        <div
-                            key={idx}
+                        <div key={idx}
                             className={`cell ${isRobot ? "robot" : isCandy ? "candy" : ""}`}
                         >
                             <p className={`${isRobot || isCandy ? "icon" : "coord"}`} >
