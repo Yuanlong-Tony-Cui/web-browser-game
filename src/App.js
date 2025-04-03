@@ -1,88 +1,94 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
 
-const GRID_SIZE = 10;
+const GRID_SIZE = 11;
 
-const getRandomPosition = () => ({
-  x: Math.floor(Math.random() * GRID_SIZE),
-  y: Math.floor(Math.random() * GRID_SIZE),
-});
+function getRandomPosition() {
+  return {
+    row: Math.floor(Math.random() * GRID_SIZE),
+    col: Math.floor(Math.random() * GRID_SIZE),
+  }
+}
 
-export default function Game() {
-  const [robot, setRobot] = useState(getRandomPosition());
-  const [candy, setCandy] = useState(getRandomPosition());
-  const [candiesEaten, setCandiesEaten] = useState(0);
+export default function GridGame() {
+  const [robotPos, setRobotPos] = useState(getRandomPosition())
+  const [targetPos, setTargetPos] = useState(getRandomPosition())
+  const [points, setPoints] = useState(0);
 
-  const moveRobot = (dx, dy) => {
-    setRobot((prev) => {
-      const newX = Math.max(0, Math.min(GRID_SIZE - 1, prev.x + dx));
-      const newY = Math.max(0, Math.min(GRID_SIZE - 1, prev.y + dy));
+  function moveRobot(dRow, dCol) {
+    setRobotPos((prevPos) => {
+      const nextRow = prevPos.row + dRow;
+      const nextCol = prevPos.col + dCol;
       return {
-        x: newX,
-        y: newY
-      };
+        row: Math.min(GRID_SIZE - 1, Math.max(0, nextRow)),
+        col: Math.min(GRID_SIZE - 1, Math.max(0, nextCol))
+      }
     });
-  };
+  }
 
-  const resetGame = () => {
-    setRobot(getRandomPosition());
-    setCandy(getRandomPosition());
-    setCandiesEaten(0);
-  };
+  function resetGame() {
+    setRobotPos(getRandomPosition());
+    setTargetPos(getRandomPosition());
+    setPoints(0);
+  }
 
   useEffect(() => {
-    const handleKeyDown = (e) => {
+    function handleKeydown(e) {
       if (e.key === "ArrowUp") moveRobot(-1, 0);
       if (e.key === "ArrowDown") moveRobot(1, 0);
       if (e.key === "ArrowLeft") moveRobot(0, -1);
       if (e.key === "ArrowRight") moveRobot(0, 1);
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown); // cleanup
-  }, []); // runs only once after the initial render
+    }
+    window.addEventListener("keydown", handleKeydown)
+    return () => {
+      window.removeEventListener("keydown", handleKeydown);
+    }
+  }, []); // runs after the initial render only
 
   useEffect(() => {
-    if (robot.x === candy.x && robot.y === candy.y) {
-      setCandiesEaten((count) => count + 1);
-      setCandy(getRandomPosition());
+    if (robotPos.row === targetPos.row && robotPos.col === targetPos.col) {
+      setPoints(prevPoints => prevPoints + 1);
+      setTargetPos(getRandomPosition()); // resets target position
     }
-  }, [robot, candy]); // runs every time robot or candy changes
+  }, [robotPos, targetPos]); // runs on every robot or target position change
 
   return (
-    <div className="container">
+    <div className="grid-game">
 
-      {/* Game Status */}
-      <div className="controls">
-        <button className="reset-button"
-          onClick={resetGame}
+      {/* Control Area */}
+      <div className="control-area">
+        <span>Points: {points}</span>
+        <button
+          onClick={() => resetGame()}
         >
           Reset Game
         </button>
-        <div className="counter">
-          Points Earned: {candiesEaten}
-        </div>
       </div>
 
       {/* Game Board */}
-      <div className="grid">
+      <div className="game-board"
+        style={{ gridTemplateColumns: `repeat(${GRID_SIZE}, 40px)` }}
+      >
         {
           Array.from({ length: GRID_SIZE * GRID_SIZE }).map((_, idx) => {
-            const x = Math.floor(idx / GRID_SIZE);
-            const y = idx % GRID_SIZE;
-            const isRobot = (x === robot.x && y === robot.y);
-            const isCandy = (x === candy.x && y === candy.y);
+            // Compute row and col:
+            const row = Math.floor(idx / GRID_SIZE);
+            const col = idx % GRID_SIZE;
+            const isRobot = robotPos.row === row && robotPos.col === col;
+            const isTarget = targetPos.row === row && targetPos.col === col;
+            const cellStyle = ((row + col) % 2 === 0) ? "cell-black" : "cell-white";
             return (
               <div key={idx}
-                className={`cell ${isRobot ? "robot" : isCandy ? "candy" : ""}`}
+                className={`cell ${cellStyle}`}
               >
-                <p className={`${isRobot || isCandy ? "icon" : "coord"}`} >
-                  {isRobot ? "🤖" : isCandy ? "🍬" : `[${x},${y}]`}
-                </p>
+                <div className="icon">
+                  {isRobot ? "🤖" : isTarget ? "⛳️" : ""}
+                </div>
               </div>
-            );
+            )
           })
         }
       </div>
     </div>
-  );
+  )
 }

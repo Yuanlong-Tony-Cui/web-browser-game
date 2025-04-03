@@ -1,61 +1,45 @@
-.container {
-    padding: 20px;
-    font-family: sans-serif;
-}
-
-.controls {
-    margin-bottom: 20px;
-}
-
-.reset-button {
-    background-color: #04aa6d;
-    color: white;
-    padding: 5px 15px;
-    font-weight: bold;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.reset-button:hover {
-    background-color: #059862;
-}
-
-.counter {
+.grid-game {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
     margin-top: 10px;
-    font-size: 16px;
+    margin-left: 10px;
 }
 
-.grid {
+.control-area {
+    display: flex;
+    gap: 5px;
+}
+
+.game-board {
     display: grid;
     grid-template-columns: repeat(10, 40px);
-    gap: 4px;
+    gap: 5px;
     width: max-content;
 }
 
 .cell {
     width: 40px;
     height: 40px;
-    border: 1px solid #ccc;
-    font-size: 10px;
+    /* border: 1px solid rgb(0, 0, 0, 0.1); */
+    box-shadow: 0 3px 5px rgb(0, 0, 0, 0.1);
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
+}
+
+.cell-black {
+    background-color: lightgray;
+}
+
+.cell-white {
     background-color: white;
 }
 
-.cell.robot {
-    background-color: lightblue;
-}
-
-.cell.candy {
-    background-color: pink;
-}
-
 .icon {
-    scale: 2.5;
+    scale: 1.5;
 }
 
-.coord {
-    opacity: 10%;
+.icon:hover{
+    cursor: pointer;
 }
