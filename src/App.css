@@ -8,7 +8,7 @@
 
 .control-area {
     display: flex;
-    gap: 5px;
+    gap: 10px;
 }
 
 .game-board {
@@ -37,7 +37,7 @@
 }
 
 .icon {
-    scale: 1.5;
+    scale: 2;
 }
 
 .icon:hover {

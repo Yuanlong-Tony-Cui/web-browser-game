@@ -1,70 +1,18 @@
-# Getting Started with Create React App
+# Cookie Chasing Game
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Introduction
+Cookie Chasing Game is a lightweight browser-based game where the player can move and eat cookies on a grid board (11x11 by default).
 
-## Available Scripts
+<img src="./public/cookie-chasing-game.png" alt="Grid Layout" style="max-height: 500px;"/>
 
-In the project directory, you can run:
+Once the player eats a cookie, a new cookie will show up in a random cell on the grid board. The total points the player achieves are counted and displayed at the top. By resetting the game, both the target's and player's positions will be reset, and the total points will be cleared immediately.
 
-### `npm start`
+## Technical Background
+This game is built with React. Some technical highlights when designing the game are listed below:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- `useState()`: We use states for tracking and updating the coordinates of player and target on the board.
+- `useEffect()`:
+    - Event listeners on `"keydown"` events should be added when the main component first gets mounted and removed when it gets unmounted.
+    - Whenever player and target positions get updated, there should be a logic that checks if the player reaches the target and updates target location accordingly.
+- `display: flex`: Flexbox Layout can actually be used quite ubiquitously - not just for arranging elements horizontally (by default), but also for controlling child elements in general by easily setting properties like `gap`, `justify-content`, and `align-items`.
+- `box-shadow`: This can make borders of elements look more natural than directly setting a solid border.
