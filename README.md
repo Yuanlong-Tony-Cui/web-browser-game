@@ -3,7 +3,7 @@
 ## Introduction
 Cookie Chasing Game is a lightweight browser-based game where the player can move and eat cookies on a grid board (11x11 by default).
 
-<img src="./public/cookie-chasing-game.png" alt="Grid Layout" style="max-height: 500px;"/>
+<img src="./public/cookie-chasing-game.png" alt="Grid Layout" height="400"/>
 
 Once the player eats a cookie, a new cookie will show up in a random cell on the grid board. The total points the player achieves are counted and displayed at the top. By resetting the game, both the target's and player's positions will be reset, and the total points will be cleared immediately.
 
